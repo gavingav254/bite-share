@@ -1,1 +1,150 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Coffee, Users, Coins, TrendingUp } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Progress } from "@/components/ui/progress";
+
+export default function CafeDashboard() {
+  const [orders, setOrders] = useState([
+    { id: 1, student: "Gavin Tyler", amount: "KSh 120", status: "Collected" },
+    { id: 2, student: "Ann Mwende", amount: "KSh 80", status: "Pending" },
+    { id: 3, student: "Brian Kip", amount: "KSh 150", status: "Collected" },
+  ]);
+
+  const [search, setSearch] = useState("");
+
+  const filteredOrders = orders.filter((order) =>
+    order.student.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <motion.div
+      className="min-h-screen bg-gradient-to-br from-[#fef6ec] to-[#fffaf5] px-6 py-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      {/* Header */}
+      <header className="flex items-center justify-between mb-8">
+        <h1 className="text-3xl font-bold text-[#1e1e1e]">☕ Café Dashboard</h1>
+        <Button className="bg-[#f8a641] hover:bg-[#e68b2e] text-white rounded-xl">
+          Log Out
+        </Button>
+      </header>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <Card className="bg-white shadow-md rounded-2xl border-none">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-[#1e1e1e]">
+              <Coffee className="text-[#f8a641]" /> Meals Served
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <h2 className="text-2xl font-bold">48</h2>
+            <p className="text-sm text-gray-500">Today</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white shadow-md rounded-2xl border-none">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-[#1e1e1e]">
+              <Users className="text-[#f8a641]" /> Active Students
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <h2 className="text-2xl font-bold">27</h2>
+            <p className="text-sm text-gray-500">Currently Served</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white shadow-md rounded-2xl border-none">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-[#1e1e1e]">
+              <Coins className="text-[#f8a641]" /> Total Earnings
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <h2 className="text-2xl font-bold">KSh 4,230</h2>
+            <p className="text-sm text-gray-500">This Week</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-white shadow-md rounded-2xl border-none">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-[#1e1e1e]">
+              <TrendingUp className="text-[#f8a641]" /> Growth Rate
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Progress value={72} className="bg-gray-100 h-3" />
+            <p className="text-sm text-gray-500 mt-2">+12% this month</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Orders Table */}
+      <Card className="bg-white shadow-md rounded-2xl border-none">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-[#1e1e1e]">Recent Orders</CardTitle>
+            <Input
+              placeholder="Search student..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-64"
+            />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Student</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredOrders.map((order) => (
+                <TableRow key={order.id}>
+                  <TableCell>{order.id}</TableCell>
+                  <TableCell>{order.student}</TableCell>
+                  <TableCell>{order.amount}</TableCell>
+                  <TableCell>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs ${
+                        order.status === "Collected"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-yellow-100 text-yellow-700"
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+}
 
