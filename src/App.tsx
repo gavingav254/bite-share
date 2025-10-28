@@ -12,8 +12,8 @@ import { Requests } from './pages/Requests';
 import { Donations } from './pages/Donations';
 import { Leaderboard } from './pages/Leaderboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-
-function App() {
+import { cafe dashboard } from '/pages/cafe dashboard';
+function App() 
   const dispatch = useDispatch();
 
   useEffect(() => {
